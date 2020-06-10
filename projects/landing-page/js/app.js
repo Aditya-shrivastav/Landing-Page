@@ -1,59 +1,49 @@
-
-const navbar = document.querySelector('#navbar__list');
-const sections = document.querySelectorAll('section')
-const containerCount = document.getElementsByClassName('landing__container')
-
-
-function isActive() {
-    maxSection = sections[0];
-    minVal = 1000000;
-    for (item of sections) {
-        let bounding = item.getBoundingClientRect();
-        if (bounding.top > -300 & bounding.top < minVal) {
-            minVal = bounding.top;
-            maxSection = item;
+function start(){
+    const navi = document.querySelector('#navbar__list');
+    const sections = document.querySelectorAll('section')
+    // adding sections to ul
+    function addSec() {
+        for (let item of sections) {
+            let section = document.createElement('li');
+            section.className = 'menu__link';
+            section.dataset.nav = item.id;
+            section.innerText = item.dataset.nav;
+            navi.appendChild(section);
         };
     };
-    return maxSection;
-};
 
-
-function addSection() {
-    for (let item of sections) {
-        let section = document.createElement('li');
-        section.className = 'menu__link';
-        section.dataset.nav = item.id;
-        section.innerText = item.dataset.nav;
-        navbar.appendChild(section);
-    };
-};
-
-
-function active () {
-    window.addEventListener('scroll', function (event) {
-        let section = isActive();
-        section.classList.add('your-active-class');
-        // set other sections as inactive
-        for (let item of sections) {
-            if (item.id != section.id & item.classList.contains('your-active-class')) {
-                item.classList.remove('your-active-class');
+    // adding view page class to your-active-class and removing the your-active-class from other classes
+    function active () {
+        window.addEventListener('scroll', function (event) {
+            let sec = sections[0];
+            let val = 100000;
+            for(let item of sections){
+                let bounding = item.getBoundingClientRect();
+                if(bounding.top > -300 & bounding.top < val){
+                    val = bounding.top;
+                    sec = item;
+                }
             }
-        }
-    });
-};
-
-function scroll(){
-    navbar.addEventListener('click',function(event){
-        const view = document.querySelector('#'+event.target.dataset.nav)
-        view.scrollIntoView({block:"end", behavior:"smooth"});
-    });
+            sec.classList.add('your-active-class');
+            for (let item of sections) {
+                if (item.id != sec.id & item.classList.contains('your-active-class')) {
+                    item.classList.remove('your-active-class');
+                }
+            }
+        });
+    };
+    //scrolling to the chosen section
+    function scroll(){
+        navbar.addEventListener('click',function(event){
+            const view = document.getElementById(event.target.dataset.nav)
+            view.scrollIntoView({block:"end", behavior:"smooth"});
+        });
+    }
+    addSec();
+    scroll();
+    active();
 }
 
-
-
-addSection();
-scroll();
-active();
-
+start();
 
 

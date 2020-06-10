@@ -1,6 +1,8 @@
 function start(){
+
     const navi = document.querySelector('#navbar__list');
     const sections = document.querySelectorAll('section')
+
     // adding sections to ul
     function addSec() {
         for (let item of sections) {
@@ -32,18 +34,20 @@ function start(){
             }
         });
     };
+
     //scrolling to the chosen section
     function scroll(){
-        navbar.addEventListener('click',function(event){
+        navi.addEventListener('click',function(event){
             const view = document.getElementById(event.target.dataset.nav)
             view.scrollIntoView({block:"end", behavior:"smooth"});
         });
     }
+
     addSec();
     scroll();
     active();
+
+
 }
 
 start();
-
-
